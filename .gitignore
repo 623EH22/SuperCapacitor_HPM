@@ -23,8 +23,9 @@ compile_commands.json
 *.map
 *.asm
 
-# 个人 IDE 配置
-/.vscode/
+# VS Code：只提交保存格式化配置，本地其他配置不提交
+/.vscode/*
+!/.vscode/settings.json
 
 # SES 生成的绝对路径描述文件，实际工程入口是 .emProject
 /build/hpm5100evk_flash_xip/segger_embedded_studio/SuperCapacitor.json
