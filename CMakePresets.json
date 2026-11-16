@@ -1,0 +1,32 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 24,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "flash_xip",
+      "displayName": "HPM5151 / hpm5100evk / flash_xip (Ninja)",
+      "description": "HPM SDK 官方工具链 + Ninja，产物目录 build/hpm5100evk_flash_xip",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/hpm5100evk_flash_xip",
+      "cacheVariables": {
+        "BOARD": "hpm5100evk",
+        "HPM_BUILD_TYPE": "flash_xip",
+        "CMAKE_MAKE_PROGRAM": "F:/HPM_SDK/tools/ninja/ninja.exe"
+      },
+      "environment": {
+        "GNURISCV_TOOLCHAIN_PATH": "F:/HPM_SDK/toolchains/rv32imac_zicsr_zifencei_multilib_b_ext-win",
+        "PATH": "F:/HPM_SDK/tools/cmake/bin;F:/HPM_SDK/tools/ninja;F:/HPM_SDK/tools/python3;F:/HPM_SDK/tools/openocd;F:/HPM_SDK/toolchains/rv32imac_zicsr_zifencei_multilib_b_ext-win/bin;$penv{PATH}"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "flash_xip",
+      "configurePreset": "flash_xip"
+    }
+  ]
+}

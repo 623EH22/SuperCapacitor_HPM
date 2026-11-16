@@ -1,0 +1,99 @@
+/*
+*************************************************************************************************************************
+*                                                         HAL_STORAGE
+*                             HAL module for the 500W Super-Capacitor Digital Power Supply.
+* Filename      : hal_storage.h
+* Version       : V1.00.00
+* Programmer(s) : RuiYuan Lin
+*************************************************************************************************************************
+* Note(s)       : TBD
+*************************************************************************************************************************
+*                                                  MODIFICATION HISTORY
+*************************************************************************************************************************
+*   Version   Date          Author        Description
+*   V1.00.00  2026-09-07    RuiYuan Lin   Initial release
+*/
+#ifndef HAL_STORAGE_H
+#define HAL_STORAGE_H
+
+/*
+*************************************************************************************************************************
+*                                                     INCLUDE FILES
+*************************************************************************************************************************
+*/
+#include <stdint.h>
+
+/*
+*************************************************************************************************************************
+*                                                     EXTERN DEFINES
+*************************************************************************************************************************
+*/
+
+#ifdef DEF_HAL_STORAGE
+#define EXT_HAL_STORAGE
+#else
+#define EXT_HAL_STORAGE extern
+#endif
+
+/*
+*************************************************************************************************************************
+*                                                     PUBLIC DEFINES
+*************************************************************************************************************************
+*/
+#define STORAGE_ITEM_MAX_COUNT 16U
+/*
+*************************************************************************************************************************
+*                                                      PUBLIC TYPES
+*************************************************************************************************************************
+*/
+typedef void (*storage_register)(uint16_t id, void *data, uint32_t length);
+typedef void (*storage_init)(void);
+typedef void (*storage_para_updt)(uint16_t id, void *data, uint32_t length);
+
+typedef struct {
+    storage_register  register_func;
+    storage_init      init_func;
+    storage_para_updt para_updt_func;
+} HAL_STORAGE_FUNC_INFO_HANDLE_T;
+/*
+*************************************************************************************************************************
+*                                                   PRIVATE VARIABLES
+*************************************************************************************************************************
+*/
+
+/*
+*************************************************************************************************************************
+*                                                    PUBLIC VARIABLES
+*************************************************************************************************************************
+*/
+typedef enum hal_storage_status_e {
+    STORAGE_OK,
+    STORAGE_PAGE_MAGIC_ERR,
+    STORAGE_PAGE_STATUS_ERR,
+    STORAGE_DATA_ERR,
+} HAL_STORAGE_STATUS_E;
+/*
+*************************************************************************************************************************
+*                                               PRIVATE (HELPER) FUNCTIONS
+*************************************************************************************************************************
+*/
+
+/*
+*************************************************************************************************************************
+*                                               GLOBAL FUNCTION PROTOTYPES
+*************************************************************************************************************************
+*/
+
+EXT_HAL_STORAGE void                            Hal_Storage_Register(uint16_t id, void *data, uint32_t length);
+EXT_HAL_STORAGE void                            Hal_Storage_Init(void);
+EXT_HAL_STORAGE void                            Hal_Storage_ParaUpdt(uint16_t id, void *data, uint32_t length);
+
+EXT_HAL_STORAGE HAL_STORAGE_FUNC_INFO_HANDLE_T *Hal_Storage_GetFuncHandle(void);
+
+/* Register/update an entire object; the stored length is derived from sizeof.
+ * Records carry no CRC, and all registered records must fit in one FEE page
+ * together with one update record. */
+#define HAL_STORAGE_REGISTER(id, var) Hal_Storage_Register((id), &(var), (uint32_t)sizeof(var))
+#define HAL_STORAGE_UPDATE(id, var)   Hal_Storage_ParaUpdt((id), &(var), (uint32_t)sizeof(var))
+
+#endif /* HAL_STORAGE_H */

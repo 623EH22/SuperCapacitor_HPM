@@ -1,0 +1,6 @@
+# 官方 app.yaml 调试配置（SES / GDB Server 参数）
+debug:
+  ses:
+    auto_start_gdb_server: true
+    gdb_server_port: 3333
+    gdb_server_reset_command: reset halt
